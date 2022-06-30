@@ -1,0 +1,36 @@
+name: imageBuild and push
+on:
+  push:
+    branches:
+      - main
+    paths:
+    - '.github/workflows/Release.yaml'
+
+jobs:
+  namagomi-velocity-build-and-push:
+    runs-on: ubuntu-latest
+    env:
+      VERSION: 2022.6.1-cloudflared22.6.3
+      IMAGE_NAME: cloudflared-tunnel-no-tls-verify-edition
+      TEAM: namagominetwork
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+        with:
+          submodules: recursive
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./docker
+          push: true
+          tags: |
+            ghcr.io/${{ env.TEAM }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
