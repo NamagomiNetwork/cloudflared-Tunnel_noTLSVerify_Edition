@@ -10,7 +10,7 @@ jobs:
   namagomi-velocity-build-and-push:
     runs-on: ubuntu-latest
     env:
-      VERSION: 2022.6.2-cloudflared22.6.3
+      VERSION: 2022.7.0-cloudflared22.7.0
       IMAGE_NAME: cloudflared-tunnel-no-tls-verify-edition
       TEAM: namagominetwork
 
